@@ -1,0 +1,22 @@
+#!/bin/sh
+
+################
+# Uncomment if you want the script to always use the scripts
+# directory as the folder to look through
+#REPOSITORIES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+REPOSITORIES=`pwd`
+
+IFS=$'\n'
+
+if [ -d "$REPOSITORIES/.git" ]
+then
+  echo "$REPOSITORIES/.git found"
+  git status
+  git add -A
+  git commit -m "local commit"
+  echo "Fetching"
+  git fetch upstream
+  echo "Merging upstream"
+  git merge -X theirs upstream/master -m "Merging upstream repository"
+fi
+
